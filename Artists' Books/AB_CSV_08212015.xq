@@ -39,6 +39,12 @@ let $csv :=
    else $aacrpub
   
    
+  (: PUB LOCATION :)
+  
+    let $header := $individual/marc:controlfield[@tag='008']/text()
+    let $publoc := fn:substring($header,16,3)
+    where $publoc = ("alu", "aru", "dcu", "deu", "flu", "gau", "kyu", "lau", "mdu", "msu", "oku", "ncu", "scu", "tnu", "txu", "vau", "wvu", "xx ")
+  
    (: PUB DATE :)
    let $aacrpubdate := $individual/marc:datafield[@tag='260']/marc:subfield[@code='c']/text()
    let $rdapubdate := $individual/marc:datafield[@tag='264']/marc:subfield[@code='c']/text()
@@ -89,6 +95,7 @@ let $csv :=
    return element record {
      element title {$title},
      element author {$author},
+     element pub_loc {$publoc},
      element publisher {$publisher},
      element date {$pubdate},
      element format {$format},
